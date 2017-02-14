@@ -10,7 +10,33 @@
   </head>
 
   <body>
-    <table>
+   <!-- 채팅 출력을 위한 ul -->
+  <ul id="msgs"></ul>
+  <form>
+    <!-- 채팅 메시지 입력창 및 전송버튼 -->
+    <input id="m" /><button type="submit">Send</button>
+  </form>
+	<!-- 웹소켓 접속을 위한 socket.io 라이브러리와 jQuery 로드 -->
+	<script src="/socket.io/socket.io.js"></script>
+	<script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
+	<script>
+	/*globals io */
+	/*eslint-env jquery */
+	  var socket = new io();
+	 
+	  // form 입력시 웹소켓에 P 로 채팅 메시지를 전송
+	  $("form").submit(function () {
+	    socket.emit("P", $("#m").val());
+	    $("#m").val("");
+	    return false;
+	  });
+	  // 서버에서 P 메시지가 수신되면 목록으로 출력
+	  socket.on("P", function(msg) {
+	    $("#msgs").append($("<li>").text(msg));
+	  });
+	</script>
+
+    <!--table>
       <tr>
         <td style= "width:30%;">
           <img class = "newappIcon" src="images/newapp-icon.png">
@@ -21,6 +47,6 @@
         </td>
       </tr>
     </table>
-  </body>
+  </body-->
 
 </html>
